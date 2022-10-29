@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>LRU</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/simulator.css">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+	<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=PT+Sans&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+	<div class="final">
+
+		<div class="navbar">
+			<ul>
+				<li><a href="homepage.html">GO BACK TO HOME</a></li>
+			</ul>
+		</div>
+        <div class="imageContainer container-fluid" align="center" id="design">
+            <div class="heading">
+				<h1>SIMULATOR</h1>
+			</div>
+            <h1 style="padding:40px;">
+                Least Recently Used (LRU)
+            </h1>
+            <form>
+                <div class"container-fluid">
+                    <div class="form-group row" style="margin-left:40px;width:25vw;display:block">
+                        <input type="number" id="frames" class="form-control" placeholder="Number of frames:">
+                    </div>
+    
+                    <div class="form-group row" style="margin-left:40px;width:25vw;display:block">
+                        <input type="text" id="rs" class="form-control" placeholder="Page Reference string:">
+                    </div>
+                    <input type="button" style="margin-left:40px; margin-bottom:20px" class="btn btn-primary" onclick="lru()" value="Simulate" id="sim">
+                    <input type="reset" style="margin-left:40px; margin-bottom:20px; display:none;" class="btn btn-primary" onClick="window.location.reload()" id="resetbtn" value="Reset">
+                    <div id="div1" class="table-responsive" style="width:80vw;margin:auto;text-align:center"></div>
+                    <div id="sp1"></div>
+                    <div id="sp2"></div>
+                </div>
+            </form>
+            <div id="bottom"></div>
+        </div>
+    </body>
+    <!-- <script type="text/javascript" src="index.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    
+    
+    <script>
+        var count = 0;
+        var pages = [];
+        var pf;
+        var ph;
+        var f;
+        var rs;
+        var txt;
+    
+        function lru() {
+            f = document.getElementById("frames").value;
+            rs = document.getElementById("rs").value;
+            var isnum = /^\d+$/.test(rs);
+            if (f <= 0) {
+                alert("Invalid input!");
+                return;
+            } else if (!isnum) {
+                alert("Use a number string (like 4761761272)");
+                return;
+            }
+            var x = document.getElementById("resetbtn").style.display = "block";;
+            var prev;
+            pf = 0;
+            ph = 0;
+            var k = 0;
+            var l;
+            var least;
+            var index;
+            var i, row = Number(f) + 1,
+                j, col = rs.length;
+    
+            pages = new Array(row);
+            for (i = 0; i < row; i++)
+                pages[i] = new Array(col);
+    
+            for (i = 0; i < row - 1; i++) {
+                for (j = 0; j < col; j++)
+                    pages[i][j] = "--";
+            }
+    
+            for (j = 0; j < col; j++) {
+                var smallest = -1;
+                var flag = false;
+                if (j > 0) {
+                    for (i = 0; i < row - 1; i++)
+                        pages[i][j] = pages[i][j - 1];
+                }
+                for (i = 0; i < row - 1; i++) {
+                    if (rs[k] == pages[i][j])
+                        flag = true;
+                }
+                if (flag == false) {
+                    for (i = 0; i < row - 1; i++) {
+                        if (pages[i][j] == "--") {
+                            smallest = i;
+                            break;
+                        }
+                    }
+                    if (smallest != -1) {
+                        pages[smallest][j] = rs[k];
+                    } else {
+                        index = 9999;
+                        for (i = 0; i < row - 1; i++) {
+                            for (l = j - 1; l >= 0; l--) {
+                                if (pages[i][j] == rs[l]) {
+                                    least = l;
+                                    break;
+                                }
+    
+                            }
+                            if (index > least)
+                                index = least;
+    
+                        }
+    
+                        for (i = 0; i < row - 1; i++) {
+                            if (pages[i][j] == rs[index])
+                                break;
+                        }
+    
+                        pages[i][j] = rs[k];
+                    }
+                    pages[row - 1][j] = "PF";
+                    k++;
+                    pf++;
+                    console.log("pf=", pf);
+                } else {
+                    ph++;
+                    k++;
+                    console.log("ph=", ph);
+                    pages[row - 1][j] = "PH";
+                }
+            }
+            txt = " ";
+            var real;
+            var m = 0;
+            var $table = $("<table border='2'></table>");
+            $table.addClass('table');
+            $tbody = $("<tbody></tbody>");
+            for (i = 0; i < row; i++) {
+                var line = $("<tr></tr>");
+                // line.css({'background-color': getRandomColor()});
+                for (j = 0; j < col; j++) {
+    
+                    if (i == row - 1) {
+    
+    
+                        if (("PH".localeCompare(pages[i][j]) == 0)) {
+                            line.append('<td style="color:green">' + 'PH' + '</td>');
+                        } else {
+                            line.append('<td style="color:red">' + 'PF' + '</td>');
+                        }
+    
+                        $tbody.prepend(line);
+    
+                    } else {
+                        line.append($("<td></td>").html(pages[i][j] + ""));
+                        $tbody.prepend(line);
+                    }
+    
+    
+                }
+            }
+    
+            $table.append($tbody);
+            $table.appendTo($("#div1"));
+            $("#sp1").html('<p style="text-align:center">' + "<b>The no of page faults is:</b>" + "   " + '<span style="color:red">' + pf + '</span>' + '</p>')
+            $("#sp2").html('<p style="text-align:center">' + "<b>The no of page hits is:</b>" + "   " + '<span style="color:green">' + ph + '</span>' + '</p>')
+            document.getElementById('bottom').scrollIntoView();
+            txt = txt + "\n";
+            console.log(txt);
+            document.getElementById("sim").style.display = "none";
+            document.getElementById("frames").disabled = true;
+            document.getElementById("rs").disabled = true;
+        }
+    </script>
+    
+</html>
