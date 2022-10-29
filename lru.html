@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Least Recently Used</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2&family=Bree+Serif&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/aboutus.css">
+    <link rel="stylesheet" href="css/homepage.css">
+    <link rel="stylesheet" href="css/common2.css">
+</head>
+
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="img/website_logo1.png" alt="">
+            </div>
+            <input type="checkbox" id="check">
+            <label for="check" class="checkbtn">
+                <i class="fas fa-bars"></i>
+            </label>
+            <ul>
+                <li><a class="active" href="homepage.html">HOME</a></li>
+                
+                    <li><a href="#" class="main-dropdown" id="drop-down" onclick="toggle()">ALGORITHMS <img src="img/dropdown.jpeg" alt="" class="downside"></a> </li>
+                    <ul class="dropdown" aria-labelledby="navbarDropdown" id="dropdowntoggle">
+                        <li><a class="dropdown-item" href="fifo.html">First In First Out</a></li>
+                        <li><a class="dropdown-item" href="lru.html">Least Recently Used</a></li>
+                        <li><a class="dropdown-item" href="mru.html">Most Recently Used</a></li>
+                        <li><a class="dropdown-item" href="second_chance.html">Second Chance</a></li>
+                        <li><a class="dropdown-item" href="optimal.html">Optimal</a></li>
+                    </ul>
+                
+            </ul>
+        </nav>
+    </header>
+    <section id="title">
+        <h1>Least Recently Used</h1>
+        <h3>(LRU)</h3>
+        <h4>A brief introduction to the topic of LRU</h4>
+    </section>
+
+    <section id="intro">
+        <p>The least recently used page replacement algorithm keeps the track of usage of pages over a period of time.
+            This algorithm works on the basis of the principle of locality of a reference which states that a program
+            has a tendency to access the same set of memory locations repetitively over a short period of time. So pages
+            that have been used heavily in the past are most likely to be used heavily in the future also.
+            <br>
+            In this algorithm, when a page fault occurs, then the page that has not been used for the longest duration
+            of time is replaced by the newly requested page.
+        </p>
+
+    </section>
+
+    <section class="example">
+        <div>
+            <img src="images/lru1.png" controls></video>
+        </div>
+    </section>
+
+    <section class="expl">
+        <div>
+            Advantages <br>
+            <li>Efficient.</li>
+            <li>Doesn't suffer from Belady’s Anomaly.</li>
+            <br>Disadvantages
+            <li>Complex Implementation.</li>
+            <li>Expensive.</li>
+            <li>Requires hardware support.</li>
+        </div>
+
+    </section>
+
+    <section class="button-123">
+        <a href="lru_simulator.html"><button class="btn-123">Simulator</button></a>
+    </section>
+    <script src="js/navbar.js"></script>
+
+
+</body>
+
+</html>
